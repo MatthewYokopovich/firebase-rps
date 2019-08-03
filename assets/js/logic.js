@@ -31,6 +31,8 @@ var opponent = {
   choice: ''
 };
 
+
+//rps is the function with the actualy game logic inside of it that evaluates the choices of the players and updates info accordingly.
 function rps(p1, p2){
   if(p1==='rock'){
     if(p2==='paper'){
@@ -83,8 +85,10 @@ function rps(p1, p2){
   player.ready = false;
   opponent.ready = false;
   playerRef.child(player.number).set(player);
+  //at the end of the comparison, each player reupdates the database with the new info.
 }
 
+//updateStats exists to update info on wins, losses, and turns whenever a new round is over and when the page loads initially.
 function updateStats(){
   if(player.number==='1'){
     $("#player-1-results").text("You have "+player.wins + " wins, "+ player.losses+" losses, and have played "+player.turns+ " times");
@@ -96,7 +100,7 @@ function updateStats(){
   }
 }
 
-
+//this function is just to have the player make a connection when they load and delete the connection when they leave.
 connectedRef.on("value", function (snap) {
   // If they are connected..
   if (snap.val()) {
@@ -116,49 +120,50 @@ connectionsRef.on("value", function (snapshot) {
 });
 
 connectionsRef.once('value', function(snapshot){
-  if (snapshot.numChildren() === 1) {
+  if (snapshot.numChildren() === 1) {//if you are the first person on the page, you become player 1
         player.number = '1';
         opponent.number = '2';
-      } else if (snapshot.numChildren() === 2) {
+      } else if (snapshot.numChildren() === 2) {//if you are the second person on the page, you become player 2
         player.number = '2';
         opponent.number = '1';
       }
-      else{
+      else{//any people after player 2 are excluded.
         player.number = '-1';
         opponent.number = '-1';
       }
-      if(player.number !== '-1'){
+      if(player.number !== '-1'){//if the player is not excluded, put their 'player' object into the DB
         console.log(playerRef);
         playerRef.child(player.number).set(player);
       }
-      if(player.number==='1'){
+      if(player.number==='1'){//hides the buttons for the other player
         $("#player-2-space").hide();
       }
       else if(player.number==='2'){
         $("#player-1-space").hide();
       }
-      else{
+      else{//hids the buttons for both players if you are exluded.
         $("#player-2-space").hide();
         $("#player-1-space").hide();
       }
+      //initial stat update on page load.
       updateStats();
       console.log("You are Player " + player.number);
-      console.log("Your have opponent " + opponent.number);
+      console.log("Your opponent is player " + opponent.number);
 });
 
-$(".btn").click(function(){
-  if(player.ready===false){
+$(".btn").click(function(){//when any button is clicked...
+  if(player.ready===false){//if the player has not already made a choice
     player.choice = $(this).text().trim();
     console.log(player.choice);
     player.ready = true;
     playerRef.child(player.number).set(player);
-    if(!opponent.ready){
+    if(!opponent.ready){//if the opponent has not chosen yet, put a message that alerts the user
       $("#results").text("You picked "+player.choice+".  Waiting for opponent...")
   }
   } 
 })
 
-playerRef.on('child_changed', (childSnapshot) => {
+playerRef.on('child_changed', (childSnapshot) => {//whenever a player updates the db...
     playerRef.on('value', function(snap){
         player.ready = snap.val()[player.number].ready;
         player.choice = snap.val()[player.number].choice;
