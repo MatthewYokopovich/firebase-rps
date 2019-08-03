@@ -1,12 +1,67 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Firebase RPS</title>
-</head>
-<body>
-
-
     <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-database.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row" id="header">
+            <h1>Database Rock Paper Scissors</h1>
+            <div id="watchers">
+
+            </div>
+        <div class="row">
+            <div class="col-md-6" id="player-1-results">
+
+            </div>
+            <div class="col-md-6" id="player-2-results">
+                
+            </div>
+        </div>
+        </div>
+        <div class="row" id="results"></div>
+        <div class="row">
+            <div class="col-md-6" id="player-1">
+                Player 1 space
+                <div id="player-1-space">
+                    <button id="player-1-rock" class="btn btn-primary">
+                        rock
+                    </button>
+                    <button id="player-1-paper" class="btn btn-success">
+                        paper
+                    </button>
+                    <button id="player-1-scissors" class="btn btn-warning">
+                        scissors
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6" id="player-2">
+                player 2 space
+                <div id="player-2-space">
+                    <button id="player-2-rock" class="btn btn-primary">
+                        rock
+                    </button>
+                    <button id="player-2-paper" class="btn btn-success">
+                        paper
+                    </button>
+                    <button id="player-2-scissors" class="btn btn-warning">
+                        scissors
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="assets/js/logic.js"></script>
 </body>
+
 </html>
